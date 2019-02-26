@@ -1,0 +1,81 @@
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+
+<h:body>
+
+    <style type="text/css">
+.ui-datatable-header {
+    height: 50px
+}
+</style>
+
+    <h:form id="fishTankForm">
+
+        <p:dataTable
+            id="tableId"
+            value="#{fishTankController.fishTankList}"
+            var="fishTank">
+
+            <f:facet name="header">
+                <p:commandButton
+                    id="toggler"
+                    type="button"
+                    value="Toggle Columns"
+                    style="float:right"/>
+                <p:columnToggler
+                    datasource="tableId"
+                    trigger="toggler" />
+            </f:facet>
+
+            <p:columnGroup type="header">
+                <p:row>
+                    <p:column
+                        rowspan="2"
+                        headerText="Name" />
+                    <p:column
+                        rowspan="2"
+                        headerText="Size" />
+                    <p:column
+                        colspan="2"
+                        toggleable="false"
+                        headerText="Fish" />
+                </p:row>
+                <p:row>
+                    <ui:repeat
+                        value="#{fishTankController.columnModelList}"
+                        var="columnModel">
+                        <p:column
+                            headerText="#{columnModel.header}"
+                            toggleable="false" />
+                    </ui:repeat>
+                </p:row>
+            </p:columnGroup>
+
+            <p:column>
+                <h:outputText value="#{fishTank.name}"></h:outputText>
+            </p:column>
+
+            <p:column>
+                <h:outputText value="#{fishTank.size}"></h:outputText>
+            </p:column>
+
+            <p:columns
+                toggleable="false"
+                value="#{fishTankController.columnModelList}"
+                var="columnModel">
+                <h:outputText value="#{fishTank[columnModel.property]}"></h:outputText>
+            </p:columns>
+
+        </p:dataTable>
+
+    </h:form>
+
+</h:body>
+
+</html>
